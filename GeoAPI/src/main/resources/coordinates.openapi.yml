@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: Coordinates API
+  description: Coordinates API for EnigmaSOI
+  version: 1.0.0
+paths:
+  /location/add:
+    post:
+      summary: Add device location
+      operationId: addDeviceLocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoordinatesCreate'
+      responses:
+        "200":
+          description: OK status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoordinatesDetails'
+  /location/{deviceId}:
+    get:
+      summary: Get device location
+      operationId: getDeviceLocation
+      parameters:
+        - in: path
+          name: deviceId
+          description: deviceId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoordinatesDetails'
+    put:
+      summary: Update device location
+      operationId: updateDeviceLocation
+      parameters:
+        - in: path
+          name: deviceId
+          description: deviceId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoordinatesCreate'
+      responses:
+        "200":
+          description: OK status
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
+
+components:
+  schemas:
+    CoordinatesDetails:
+      type: object
+      required:
+        - deviceId
+        - latitude
+        - longitude
+      properties:
+        deviceId:
+          type: string
+          format: uuid
+        latitude:
+          type: string
+        longitude:
+          type: string
+    CoordinatesCreate:
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          type: string
+        longitude:
+          type: string
+
